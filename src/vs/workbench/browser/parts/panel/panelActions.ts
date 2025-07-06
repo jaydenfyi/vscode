@@ -125,6 +125,23 @@ registerAction2(class extends Action2 {
 	}
 });
 
+registerAction2(class extends Action2 {
+
+    constructor() {
+        super({
+            id: 'workbench.action.openPanel',
+            title: localize2('showPanel', 'Show Panel'),
+            category: Categories.View,
+            f1: true,
+            precondition: PanelVisibleContext.toNegated()
+        });
+    }
+
+    run(accessor: ServicesAccessor) {
+        accessor.get(IWorkbenchLayoutService).setPartHidden(false, Parts.PANEL_PART);
+    }
+});
+
 const PositionPanelActionId = {
 	LEFT: 'workbench.action.positionPanelLeft',
 	RIGHT: 'workbench.action.positionPanelRight',

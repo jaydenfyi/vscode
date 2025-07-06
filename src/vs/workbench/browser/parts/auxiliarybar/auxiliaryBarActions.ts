@@ -115,9 +115,9 @@ registerAction2(class FocusAuxiliaryBarAction extends Action2 {
 		});
 	}
 
-	override async run(accessor: ServicesAccessor): Promise<void> {
-		const paneCompositeService = accessor.get(IPaneCompositePartService);
-		const layoutService = accessor.get(IWorkbenchLayoutService);
+        override async run(accessor: ServicesAccessor): Promise<void> {
+                const paneCompositeService = accessor.get(IPaneCompositePartService);
+                const layoutService = accessor.get(IWorkbenchLayoutService);
 
 		// Show auxiliary bar
 		if (!layoutService.isVisible(Parts.AUXILIARYBAR_PART)) {
@@ -125,9 +125,26 @@ registerAction2(class FocusAuxiliaryBarAction extends Action2 {
 		}
 
 		// Focus into active composite
-		const composite = paneCompositeService.getActivePaneComposite(ViewContainerLocation.AuxiliaryBar);
-		composite?.focus();
-	}
+                const composite = paneCompositeService.getActivePaneComposite(ViewContainerLocation.AuxiliaryBar);
+                composite?.focus();
+        }
+});
+
+registerAction2(class extends Action2 {
+
+    constructor() {
+        super({
+            id: 'workbench.action.openAuxiliaryBar',
+            title: localize2('showAuxiliaryBar', 'Show Secondary Side Bar'),
+            category: Categories.View,
+            f1: true,
+            precondition: AuxiliaryBarVisibleContext.toNegated()
+        });
+    }
+
+    run(accessor: ServicesAccessor) {
+        accessor.get(IWorkbenchLayoutService).setPartHidden(false, Parts.AUXILIARYBAR_PART);
+    }
 });
 
 MenuRegistry.appendMenuItems([

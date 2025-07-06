@@ -64,3 +64,20 @@ export class FocusSideBarAction extends Action2 {
 }
 
 registerAction2(FocusSideBarAction);
+
+registerAction2(class extends Action2 {
+
+    constructor() {
+        super({
+            id: 'workbench.action.openSidebar',
+            title: localize2('showSidebar', 'Show Primary Side Bar'),
+            category: Categories.View,
+            f1: true,
+            precondition: SideBarVisibleContext.toNegated()
+        });
+    }
+
+    run(accessor: ServicesAccessor): void {
+        accessor.get(IWorkbenchLayoutService).setPartHidden(false, Parts.SIDEBAR_PART);
+    }
+});
